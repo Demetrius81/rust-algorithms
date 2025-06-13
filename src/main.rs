@@ -1,6 +1,7 @@
 mod algoritms;
 
 fn main() {
-    algoritms::fibonacci::run();
-    algoritms::prime_numbers::run();
+    // algoritms::fibonacci::run();
+    // algoritms::prime_numbers::run();
+    algoritms::double_linked_list::run();
 }

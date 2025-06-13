@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 pub fn run() {
     println!("vec_fibonacci(7) = {:?}", fibonacci_calc_recirsive(7));
     println!("vec_fibonacci(7) = {:?}", fibonacci_calc_loop(7));
