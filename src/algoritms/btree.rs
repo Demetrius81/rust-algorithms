@@ -1,8 +1,5 @@
 #![allow(dead_code)]
-// #![allow(unused_variables)]
-// #![allow(unused_assignments)]
-
-use crate::algoritms::btree::btree::BinaryTree;
+#![allow(unsafe_op_in_unsafe_fn)]
 
 mod btree {
     use std::cell::RefCell;
@@ -217,12 +214,12 @@ mod btree {
 
         pub fn print_tree(&self) {
             if self.root.is_none() {
-                println!("Дерево пустое");
+                println!("Tree is empty");
                 return;
             }
 
             let mut queue = VecDeque::new();
-            queue.push_back((Rc::clone(self.root.as_ref().unwrap()), 0)); // кортеж (узел, уровень)
+            queue.push_back((Rc::clone(self.root.as_ref().unwrap()), 0));
             let mut current_level = 0;
 
             while !queue.is_empty() {
@@ -247,9 +244,143 @@ mod btree {
     }
 }
 
+mod btree_unsafe {
+    use std::ptr;
+
+    struct Node {
+        value: i32,
+        left: *mut Node,
+        right: *mut Node,
+    }
+
+    impl Node {
+        fn new(value: i32) -> *mut Node {
+            let node = Box::new(Node {
+                value,
+                left: ptr::null_mut(),
+                right: ptr::null_mut(),
+            });
+            Box::into_raw(node)
+        }
+    }
+
+    pub struct BinaryTree {
+        root: *mut Node,
+    }
+
+    impl BinaryTree {
+        pub fn new() -> Self {
+            Self {
+                root: ptr::null_mut(),
+            }
+        }
+
+        pub fn insert(&mut self, value: i32) {
+            unsafe {
+                if self.root.is_null() {
+                    self.root = Node::new(value);
+                } else {
+                    Self::insert_node(self.root, value);
+                }
+            }
+        }
+
+        unsafe fn insert_node(current: *mut Node, value: i32) {
+            if current.is_null() {
+                return;
+            }
+
+            if (*current).value >= value {
+                if (*current).left.is_null() {
+                    (*current).left = Node::new(value);
+                } else {
+                    Self::insert_node((*current).left, value);
+                }
+            } else {
+                if (*current).right.is_null() {
+                    (*current).right = Node::new(value);
+                } else {
+                    Self::insert_node((*current).right, value);
+                }
+            }
+        }
+
+        pub fn print_tree(&self) {
+            use std::collections::VecDeque;
+
+            if self.root.is_null() {
+                println!("Tree is empty");
+                return;
+            }
+
+            let mut queue = VecDeque::new();
+            queue.push_back(self.root);
+
+            while !queue.is_empty() {
+                let level_size = queue.len();
+
+                for _ in 0..level_size {
+                    let node_ptr = queue.pop_front().unwrap();
+
+                    unsafe {
+                        print!("{} ", (*node_ptr).value);
+
+                        if !(*node_ptr).left.is_null() {
+                            queue.push_back((*node_ptr).left);
+                        }
+                        if !(*node_ptr).right.is_null() {
+                            queue.push_back((*node_ptr).right);
+                        }
+                    }
+                }
+                println!();
+            }
+        }
+
+        pub fn drop_tree(&mut self) {
+            unsafe {
+                Self::free_node(self.root);
+            }
+            self.root = ptr::null_mut();
+        }
+
+        unsafe fn free_node(node: *mut Node) {
+            if node.is_null() {
+                return;
+            }
+
+            Self::free_node((*node).left);
+            Self::free_node((*node).right);
+
+            let _ = Box::from_raw(node);
+        }
+    }
+
+    impl Drop for BinaryTree {
+        fn drop(&mut self) {
+            self.drop_tree();
+        }
+    }
+}
+
 pub fn run() {
     let v = vec![5, 7, 3, 6, 4, 8, 2, 9, 1];
-    let mut tree = BinaryTree::new();
+    let mut tree = btree::BinaryTree::new();
     tree.build_tree(&v);
+    tree.print_tree();
+
+    let mut tree = btree_unsafe::BinaryTree::new();
+    tree.insert(5);
+    tree.insert(3);
+    tree.insert(7);
+    tree.insert(2);
+    tree.insert(4);
+    tree.insert(1);
+    tree.insert(6);
+    tree.insert(8);
+    tree.insert(9);
+    tree.print_tree();
+    tree.drop_tree();
+    println!("Drop tree");
     tree.print_tree();
 }
