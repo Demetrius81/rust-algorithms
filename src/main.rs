@@ -5,5 +5,6 @@ fn main() {
     // algoritms::prime_numbers::run();
     // algoritms::double_linked_list::run();
     // algoritms::btree::run();
-    algoritms::sort::run();
+    // algoritms::sort::run();
+    algoritms::bin_search::run();
 }
