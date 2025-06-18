@@ -1,7 +1,9 @@
+pub mod bin_search;
 pub mod btree;
+pub mod dijkstra;
 pub mod double_linked_list;
 pub mod fibonacci;
 pub mod prime_numbers;
+pub mod rabin_karp;
 pub mod sort;
-pub mod bin_search;
-pub mod dijkstra;
+pub mod tree_of_segments;

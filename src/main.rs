@@ -7,5 +7,6 @@ fn main() {
     // algoritms::btree::run();
     // algoritms::sort::run();
     // algoritms::bin_search::run();
-    algoritms::dijkstra::run();
+    // algoritms::dijkstra::run();
+    algoritms::rabin_karp::run();
 }

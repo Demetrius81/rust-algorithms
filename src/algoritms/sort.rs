@@ -1,6 +1,4 @@
 #![allow(dead_code)]
-#![allow(unused_variables)]
-#![allow(unused_assignments)]
 
 fn merge_sort(arr: &mut [i32]) {
     if arr.len() <= 1 {
