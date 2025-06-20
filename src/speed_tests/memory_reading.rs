@@ -6,9 +6,9 @@ const NUM_ITERS: usize = 10_000;
 
 pub fn run() {
     let mut arr = Box::new([[0; NUM_ITERS]; NUM_ITERS]);
-    let mut now = std::time::Instant::now();
 
     println!("> Data from memory is read sequentially with minimal memory access.");
+    let mut now = std::time::Instant::now();
     for i in 0..NUM_ITERS {
         for j in 0..NUM_ITERS {
             arr[i][j] += 1;
