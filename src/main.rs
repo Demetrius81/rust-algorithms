@@ -1,4 +1,5 @@
 mod algoritms;
+mod speed_tests;
 
 fn main() {
     // algoritms::fibonacci::run();
@@ -9,4 +10,5 @@ fn main() {
     // algoritms::bin_search::run();
     // algoritms::dijkstra::run();
     algoritms::rabin_karp::run();
+    speed_tests::cpu_cash_speed::run();
 }
