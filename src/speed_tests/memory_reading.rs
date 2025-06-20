@@ -17,7 +17,7 @@ pub fn run() {
             arr[i][j] += 1;
         }
     }
-    println!(">> Done in:{:?}", now.elapsed());
+    println!(">> Done in: {:?}", now.elapsed());
 
     println!("> Data from memory is not read sequentially. Each access to data is a cache miss.");
     now = std::time::Instant::now();
@@ -26,5 +26,5 @@ pub fn run() {
             arr[j][i] += 1;
         }
     }
-    println!(">> Done in:{:?}", now.elapsed());
+    println!(">> Done in: {:?}", now.elapsed());
 }
