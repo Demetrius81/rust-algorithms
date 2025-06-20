@@ -1,12 +1,16 @@
+#![allow(dead_code)]
+#![allow(unused_variables)]
+#![allow(unused_assignments)]
+
 use std::sync::Arc;
 use std::sync::atomic::{AtomicUsize, Ordering};
-
 use std::thread;
 
 const NUM_THREADS: usize = 4;
 const NUM_ITERS: usize = 100_000_000;
 
-// #[repr(align(128))] // add paddind to 128 bytes (cache L1) to boost
+// #[repr(align(64))] // add paddind to 64 bytes (cache line in intel i5 core) to boost
+// #[repr(align(128))] // add paddind to 128 bytes (cache line in apple M1 core) to boost
 #[derive(Debug, Default)]
 struct Counter {
     pub val: AtomicUsize, // 8 bytes

@@ -9,6 +9,8 @@ fn main() {
     // algoritms::sort::run();
     // algoritms::bin_search::run();
     // algoritms::dijkstra::run();
-    algoritms::rabin_karp::run();
-    speed_tests::cpu_cash_speed::run();
+    // algoritms::rabin_karp::run();
+
+    // speed_tests::cpu_cash_speed::run();
+    speed_tests::memory_reading::run();
 }
