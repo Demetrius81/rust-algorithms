@@ -24,7 +24,10 @@ pub fn print_memory_representation<T>(t: T)
 where
     T: std::fmt::Debug,
 {
-    print!("type={} value={t:?}: ", std::any::type_name::<T>());
+    print!(
+        "type={} value={t:?}:\t",
+        std::any::type_name::<T>().split("::").last().unwrap()
+    );
     let start = &t as *const _ as *const u8;
     for i in 0..std::mem::size_of::<T>() {
         print!("{:02x} ", unsafe { *start.offset(i as isize) });

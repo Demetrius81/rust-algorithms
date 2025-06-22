@@ -13,5 +13,6 @@ fn main() {
 
     // speed_tests::cpu_cash_speed::run();
     // speed_tests::memory_reading::run();
-    speed_tests::memory_representation::run();
+    // speed_tests::memory_representation::run();
+    speed_tests::struct_packing::run();
 }
